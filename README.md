@@ -107,3 +107,6 @@ python3 eval.py
 - Stable Baselines3: https://github.com/DLR-RM/stable-baselines3
 
 ## ライセンス
+
+本プロジェクトは MIT ライセンスのもとで公開されています. 
+詳細については LICENSE ファイルを参照してください.
