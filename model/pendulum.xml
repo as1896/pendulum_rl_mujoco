@@ -1,0 +1,71 @@
+<mujoco model="pendulum.xml">
+    <compiler angle="radian" autolimits="true"/>
+
+    <include file="floor.xml"/>
+
+    <option integrator="implicitfast" gravity="0 0 -9.81"/>
+
+    <default>
+        <joint damping="0.1"/>
+        <geom rgba="0.8 0.8 0.8 1" friction="0.8 0.1 0.1"/>
+    </default>
+
+    <worldbody>
+        <light name="top" pos="0 0 3.0"/>
+
+        <body name="point" pos="0 0 1">
+            <joint name="x_slide" type="slide" axis="1 0 0" range="-5.0 5.0"/>
+            <!--    台車相当の設定 
+                    name    :
+                    type    :
+                    size    :
+                    rgba    :
+            -->
+            <geom   name="point_geom"
+                    type="sphere"
+                    size="0.03"
+                    mass="5.0"
+                    rgba="0.2 0.8 0.2 1"
+            />
+
+            <body name="link">
+                <joint name="pend_hinge" type="hinge" axis="0 1 0" limited="false" damping="0.1"/>
+                <!--    棒の設定 
+                        name    : 
+                        type    :
+                        fromto  :
+                        size    :
+                        density :   
+                        rgba    :
+                -->
+                <geom   name="rod"
+                        type="capsule"
+                        fromto="0 0 0  0 0 0.5"
+                        size="0.02"
+                        density="2700"
+                        rgba="0.7 0.7 0.9 1"
+                />
+                <!-- 質点確認用 -->
+                <geom   name="tip_mass"
+                        type="sphere"
+                        pos="0 0 0.5"
+                        size="0.03"
+                        mass="0.0001"
+                        rgba="0.9 0.3 0.3 1"
+                />
+            </body>
+        </body>
+
+    </worldbody>
+
+    <actuator>
+        <!-- 台車のみ駆動（棒のアクチュエータは削除） -->
+        <motor name="x_motor" joint="x_slide" ctrllimited="true" ctrlrange="-50 50"/>
+    </actuator>
+
+    <keyframe>
+        <!-- ctrl はアクチュエータ数と一致させる：1要素に修正 -->
+        <key name="home" qpos="0 0" ctrl="0"/>
+    </keyframe>
+
+</mujoco>

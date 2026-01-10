@@ -1,0 +1,139 @@
+<mujoco>
+    <!-- 
+        シミュレーション時間の設定
+        dt = 0.005[s](200Hz)
+    -->
+    <option timestep="0.005" />
+
+    <!-- 
+        asset   :   見た目を一括管理する箇所
+            texture     :   見た目
+            material    :   物体にどう貼るか・反射・色味
+    -->
+    <asset>
+        <!-- 
+            背景設定
+            type    :   skybox 背景を指定
+            builtin :   gradient(グラーデーション機能)
+                        flat(単色), checker(チェッカー模様)
+            rgb1    :   上側(空の上)
+            rgb2    :   下側(空の下)
+            width   :   幅(テクスチャ画像の解像度)
+            height  :   高さ(テクスチャ画像の解像度)
+        -->
+        <texture type="skybox" builtin="gradient" rgb1=".3 .5 .7" rgb2="0 0 0" width="512" height="512" />
+
+        <!--
+            body用テクスチャ
+                name    :   texture名
+                type    :   立体に使うテクスチャ
+                builtin :   単色テクスチャ
+                mark    :   十字模様
+                width   :   幅
+                height  :   高さ
+                rbg1    :   
+                rbg2    :   
+                markrgb :   マークの色 
+                random  :   色に微小なランダムノイズを加える
+        -->
+        <texture name="body" type="cube" builtin="flat" mark="cross" width="127" height="1278"
+            rgb1="0.8 0.6 0.4" rgb2="0.8 0.6 0.4" markrgb="1 1 1" random="0.01" />
+
+        <!--
+            body用material(立体にどう貼るか)
+                name        :   material名
+                texture     :   上のテクスチャを使用
+                texuniform  :   立体では必須
+                                テクスチャの自動スケール機能, 歪み防止, 見た目の安定
+                rgba        :   最終的な色の微調整
+                                a = 1(不透明)
+                
+        -->
+        <material name="body" texture="body" texuniform="true" rgba="0.8 0.6 .4 1" />
+
+        <!--
+            grid用テクスチャ
+                name    :   texture名
+                type    :   2Dに使うテクスチャ
+                builtin :   checker(チェッカー模様)
+                width   :   幅
+                height  :   高さ
+                rgb1    :   色1
+                rgb2    :   色2
+        -->
+        <texture 
+            name="grid"
+            type="2d"
+            builtin="checker"
+            width="512"
+            height="512"
+            rgb1=".05 .1 .15"
+            rgb2=".3 .4 .5"
+            mark="cross"
+            markrgb="1 1 1"
+        />
+
+        <!-- 
+            grid用material
+                name        :   material名
+                texture     :   上のテクスチャを使用
+                texrepeat   :   u(横), v(縦)の繰り返し数
+                texuniform  :   立体では必須
+                                テクスチャの自動スケール機能, 歪み防止, 見た目の安定
+                reflectance :   反射率
+        -->
+        <material name="grid" texture="grid" texrepeat="1 1" texuniform="true" reflectance=".1" />
+    </asset>
+
+    <!--
+        default :   物理パラメータの既定値テンプレート
+            motorの既定値       :   制御入力を[-1,1]で制限
+
+            class=bodyの既定値  :   geom, jointに適用
+                geomの既定値
+                    condim      :   接触次元
+                    friction    :   摩擦係数
+                    solimp      :   接触の硬さ
+                    solref      :   減衰特性
+                    material    :   使用するマテリアル
+                jointの既定値
+                    damping     :   減衰係数
+                    stiffness   :   剛性係数
+                    armature    :   仮想完成
+                    solimplimit :   ソフト拘束
+    -->
+    <default>
+        <motor ctrlrange="-1 1" ctrllimited="true" />
+        <default class="body">
+            <geom condim="1" friction=".7" solimp=".9 .99 .003" solref=".015 1" material="body" />
+            <joint damping=".02" stiffness=".1" armature=".01" solimplimit="0 .99 .01" />
+        </default>
+    </default>
+
+    <!--
+        見た目・描画品質
+        map
+            force   :   力の可視化スケール
+            zfar    :   描画の最遠距離
+        haze    :   霧・遠景処理
+        shadowsize  :   影の品質
+        gloabl      :   オフスクリーン描画
+            動画・画像出力に影響
+    -->
+    <visual>
+        <map force="0.1" zfar="30" />
+        <rgba haze="0.15 0.25 0.35 1" />
+        <quality shadowsize="4096" />
+        <global offwidth="800" offheight="800" />
+    </visual>
+
+    <!--
+        床
+        光源
+    -->
+    <worldbody>
+        <geom name="floor" size="0 0 .05" type="plane" material="grid" condim="3" />
+        <light name="worldlight" directional="true" ambient="0.2 0.2 0.2" diffuse="0.8 0.8 0.8"
+            specular="0.3 0.3 0.3" castshadow="false" pos="0 0 4" dir="0 0 -90"></light>
+    </worldbody>
+</mujoco>
