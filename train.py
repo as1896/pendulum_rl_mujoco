@@ -4,10 +4,14 @@ from stable_baselines3.common.vec_env import DummyVecEnv
 
 from env.pendulum_env import PendulumEnv
 import multiprocessing as mp
+from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parent
+XML_PATH = PROJECT_ROOT / "model" / "pendulum.xml"
 
 def make_env():
     return PendulumEnv(
-        xml_file="model/pendulum.xml",
+        xml_file=str(XML_PATH),
         reset_noise_scale=0.1,
         theta_threshold=0.2,
         frame_skip=2,

@@ -1,0 +1,9 @@
+強化学習メモ
+
+○強化学習する物体を変更するには？
+・model/pendulum.xml(MJCF)を変更する
+・MJCFを変更した場合, env/pendulum_env.py(Env)を変更する
+
+○Envを変更するときの場所は？
+・jointのidを変更したものに直す
+・終了フラグの条件を変更する

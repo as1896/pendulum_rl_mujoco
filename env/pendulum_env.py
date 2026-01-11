@@ -159,14 +159,14 @@ class PendulumEnv(MujocoEnv, utils.EzPickle):
 
         # ctrlに渡す値を作成
         # action shape を安定化（SB3等が (1,) を渡す想定）
-        a = np.asarray(action, dtype=np.float64).reshape(-1)
-        a = np.clip(a[0], -1.0, 1.0)  # 学習側は [-1,1] で統一しても良い
+        a = np.asarray(action, dtype=np.float64).reshape(self.model.nu)
+        a = np.clip(a, -1.0, 1.0)  # 学習側は [-1,1] で統一しても良い
 
         # ゲインを掛けて値を調整
         ctrl = a * self._action_scale
 
         # MujocoEnv の do_simulation は self.data.ctrl に書いて回してくれる
-        self.do_simulation(np.array([ctrl], dtype=np.float64), self.frame_skip)
+        self.do_simulation(ctrl.astype(np.float64), self.frame_skip)
         """
             frame_skip回シミュレーションを回す
             シミュレーションを回す前に制御入力を渡す

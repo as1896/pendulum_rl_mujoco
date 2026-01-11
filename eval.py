@@ -6,7 +6,7 @@ model = PPO.load("ppo_pendulum")
 env = PendulumEnv(
     xml_file="model/pendulum.xml",
     render_mode="human",   # 描画
-    reset_noise_scale=0.1, # 評価時はノイズなしが見やすい
+    reset_noise_scale=0.15, # 評価時はノイズなしが見やすい
     theta_threshold=0.2,
 )
 
