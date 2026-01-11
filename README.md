@@ -48,7 +48,8 @@ pendulum_rl_mujoco
 ├── eval.py
 ├── requirements.txt
 ├── show_model.py
-└── train.py
+├── train.py
+└── メモ書き.txt
 ```
 
 - env</br>
@@ -63,6 +64,8 @@ pendulum_rl_mujoco
     MuJoCoモデルの可視化用
 - requirements.txt</br>
     ライブラリインストール用
+- メモ書き.txt</br>
+    モデルを変更した際のメモ
 
 ## 実行方法
 
