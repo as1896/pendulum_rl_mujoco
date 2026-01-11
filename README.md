@@ -103,11 +103,15 @@ python3 eval.py
 
 - 学習中は描画を無効化
 - 本リポジトリは学習・検証目的であるため, 制御性能の最適化はまだできていません.
+- 本リポジトリは生成AI等を活用いたしました(ChatGPT等)
 
 ## 参考
 
-- MuJoCo: https://mujoco.org/
-- Stable Baselines3: https://github.com/DLR-RM/stable-baselines3
+- [MuJoCo](https://mujoco.org/)
+- [Gymnasium](https://github.com/Farama-Foundation/Gymnasium)
+- [Stable Baselines3](https://github.com/DLR-RM/stable-baselines3)
+- [MuJoCoによるロボットシミュレーション](https://zenn.dev/kinakomochi5250/articles/mujoco-example)
+- [【Python】物理エンジンMuJoCoの紹介＆MJCFドキュメント【MuJoCoチュートリアル①】](https://qiita.com/Yayoi-Habami/items/1bf5a3e05b1516a90381)
 
 ## ライセンス
 
